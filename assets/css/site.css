@@ -193,7 +193,7 @@ body.launch .concept-banner{display:none}
 .cband .tl{display:grid;place-items:center;height:6rem;border-radius:9999px;font-size:1.875rem;font-weight:500;transition:transform .35s var(--ease-pop)}
 .cband a.tl:hover{transform:scale(1.03)}
 .tl.light{background:var(--surface);color:#111}.tl.accent{background:var(--surface);color:#111}
-.tl.dark{background:var(--ink);color:#fff}.tl.dark svg{font-size:2.25rem}
+.tl.dark{background:var(--ink);color:#fff}.cband .tl.dark{display:flex;align-items:center;justify-content:center;gap:.75rem}.tl.dark svg{font-size:1.5rem}
 
 /* ---------- dark cards ---------- */
 .cards{margin-top:3rem;display:grid;grid-template-columns:1fr;gap:1.5rem}
@@ -507,7 +507,7 @@ footer .shell{position:relative;z-index:10;padding-block:5rem 2.5rem}
   .site-header .shell{padding-block:1.25rem}
   .hero h1{font-size:3.25rem}
   .ab h2{font-size:1.875rem}
-  .cband ul{flex-direction:row;gap:1rem}.cband .tl{height:10rem;font-size:2.25rem}.tl.dark svg{font-size:3rem}
+  .cband ul{flex-direction:row;gap:1rem}.cband .tl{height:10rem;font-size:2.25rem}.tl.dark svg{font-size:2rem}
   .h2{font-size:3rem}.card{min-height:26rem;padding:2rem}.card .bt{inset-inline:2rem;bottom:2rem}.card h3{font-size:1.875rem}
   .sv a{gap:1.5rem;padding-block:2rem}.sv .n{width:2.5rem}.sv h3{font-size:1.875rem}.sv .bd{width:3rem;height:3rem}
   .panel{padding:4rem 2rem}.sg .v{font-size:3.75rem}
