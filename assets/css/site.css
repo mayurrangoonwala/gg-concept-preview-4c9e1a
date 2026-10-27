@@ -203,6 +203,14 @@ body.launch .concept-banner{display:none}
 .card .bg{width:2.75rem;height:2.75rem;display:grid;place-items:center;border-radius:9999px;background:rgba(255,255,255,.1);color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.15);transition:transform .35s}
 .card:hover .bg{transform:rotate(45deg) scale(1.08)}
 .card .wmk{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}.card .wmk img{width:4.5rem;height:4.5rem;object-fit:contain;opacity:.9}
+.card .mt{position:relative}.card .mt,.card .bt{z-index:1}
+.card.ph{background-size:cover;background-position:center}.card.ph-sell{background-image:url(../img/card-sell.jpg)}.card.ph-buy{background-image:url(../img/card-buy.jpg)}
+.card.ph::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.28) 0%,rgba(10,10,10,.1) 40%,rgba(10,10,10,.88) 100%)}
+.card .ic{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}.card .ic svg{width:5.5rem;height:5.5rem;stroke-width:1.1;opacity:.92;margin-bottom:5rem}
+.card.lt{background:var(--surface);color:#111;box-shadow:0 0 0 1px var(--line)}.card.lt .mt{color:var(--text-3)}.card.lt .bg{background:#fff;color:#111;box-shadow:0 0 0 1px var(--line)}.card.lt p{color:var(--text-2)}.card.lt .ic{color:#111}
+.card.lt .tag{border-color:rgba(17,17,17,.22);color:#111}
+.card.gd{background:linear-gradient(to bottom right,var(--accent-from),var(--accent-to))}.card.gd .mt,.card.gd p{color:rgba(255,255,255,.85)}.card.gd .ic{color:#fff}
+.card.gd .tag{border-color:rgba(255,255,255,.55)}
 .card .bt{position:absolute;inset-inline:1.5rem;bottom:1.5rem}
 .card h3{font-size:1.5rem;font-weight:500;letter-spacing:-.01em}.card p{margin-top:.5rem;max-width:28rem;font-size:.9375rem;color:rgba(255,255,255,.68)}
 .card .tg{margin-top:1.25rem;display:flex;flex-wrap:wrap;gap:.5rem}
