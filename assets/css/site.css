@@ -536,6 +536,7 @@ footer .shell{position:relative;z-index:10;padding-block:5rem 2.5rem}
   .hl{grid-column:span 9}
   .status .mid{display:block}
   #about .shell,.abt .shell{grid-template-columns:1fr 1fr;padding-block:7rem}
+  #about .shell{grid-template-columns:20rem minmax(0,36rem);justify-content:center;column-gap:6rem}
   #works .shell{padding-bottom:7rem}#services .shell{padding-block:7rem}.sv p{display:block}
   .sg{grid-template-columns:repeat(4,1fr)}
   .fcta{flex-direction:row;align-items:flex-end;justify-content:space-between}.fcols{grid-template-columns:1.4fr 1fr 1fr 1.3fr}footer .shell{padding-top:6rem}
