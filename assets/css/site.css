@@ -178,6 +178,7 @@ body.launch .concept-banner{display:none}
 #about .shell,.abt .shell{display:grid;grid-template-columns:1fr;align-items:center;gap:3rem;padding-block:5rem}
 .gl{display:flex;flex-direction:column;gap:1.25rem}
 .gl .pt{aspect-ratio:4/5;max-width:20rem;overflow:hidden;border-radius:1.5rem;background:var(--ink)}.gl .pt img{width:100%;height:100%;object-fit:cover}
+.gl .pt.brand{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;text-align:center;background:var(--ink);color:#fff;padding:2rem}.gl .pt.brand img{width:6rem;height:6rem;height:auto;object-fit:contain;margin-bottom:1.25rem}.gl .pt.brand b{font-size:1.25rem;font-weight:600}.gl .pt.brand span{font-size:.875rem;color:rgba(255,255,255,.65)}
 .gl figcaption{font-size:1rem;font-weight:600}.gl figcaption small{display:block;margin-top:.15rem;font-size:.8125rem;font-weight:400;color:var(--text-3)}
 .ab{display:flex;flex-direction:column;gap:2.5rem}
 .ab h2{font-size:1.5rem;font-weight:500;line-height:1.35;letter-spacing:-.01em}.ab h2 .g{color:var(--text-3)}
