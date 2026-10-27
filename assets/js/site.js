@@ -1,7 +1,7 @@
 /* Gill and Gill, JK Gill. Shared behaviour for every page.
    Plain script (no modules) so the site also works when opened straight from disk.
    Sections: forms config, helpers, scroll, loader, reveal, header, clock, menu, modal,
-   forms, hero extras, listings filters, count-up, liquid reveal. */
+   forms, listings filters, count-up. */
 (function () {
   'use strict';
   var html = document.documentElement;
@@ -103,7 +103,7 @@
   /* ---------- loader: plays once per browser session ---------- */
   var loader = $('#loader');
   if (loader && !html.classList.contains('seen') && !reduce) {
-    var fillEl = $('#fill'), cnt = $('#cnt'), T0 = performance.now(), FILL = 1300;
+    var fillEl = $('#fill'), cnt = $('#cnt'), T0 = performance.now(), FILL = 650;
     stopScroll();
     var ease = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
     (function tick(now) {
@@ -112,8 +112,8 @@
       if (t < 1) requestAnimationFrame(tick);
       else setTimeout(function () {
         loader.classList.add('out'); store('gg-loader', '1');
-        setTimeout(function () { loader.remove(); startScroll(); release(); }, 850);
-      }, 120);
+        setTimeout(function () { loader.remove(); startScroll(); release(); }, 560);
+      }, 60);
     })(T0);
   } else {
     if (loader) loader.remove();
@@ -343,24 +343,6 @@
     if (c && c.type === 'checkbox' && c.closest('.consent.invalid')) check(c);
   });
 
-  /* ---------- home hero card carousel ---------- */
-  var slot = $('#slot');
-  if (slot) {
-    var items = [{ c: 'Sellers', t: 'Know your number first.' }, { c: 'Buyers', t: 'Find the right home, faster.' }, { c: 'First-time buyers', t: 'Start with the checklist.' }];
-    var dots = $('#dots'), cur = 0;
-    slot.innerHTML = items.map(function (x, i) { return '<div class="it' + (i ? '' : ' on') + '"><small>' + x.c + '</small><b>' + x.t + '</b></div>'; }).join('');
-    dots.innerHTML = items.map(function (_, i) { return '<i class="' + (i ? '' : 'on') + '"></i>'; }).join('');
-    var show = function (step) {
-      var n = items.length, nx = (cur + step + n) % n, its = $$('.it', slot), old = its[cur];
-      old.classList.remove('on'); old.classList.add('off'); setTimeout(function () { old.classList.remove('off'); }, 350);
-      its[nx].classList.add('on'); $$('i', dots).forEach(function (d, i) { d.classList.toggle('on', i === nx); }); cur = nx;
-      slot.setAttribute('aria-live', 'polite');
-    };
-    $('#hc').addEventListener('click', function (e) { if (!e.target.closest('.arrs')) show(1); });
-    $('#nx').addEventListener('click', function () { show(1); });
-    $('#pv').addEventListener('click', function () { show(-1); });
-  }
-
   /* ---------- listings: filter bar updates the summary only (no data is fabricated) ---------- */
   var ff = $('#listing-filters');
   if (ff) {
@@ -391,58 +373,4 @@
     });
   }
   countTick();
-
-  /* ---------- hero liquid cursor-reveal (home only, skipped for reduced motion) ---------- */
-  (function () {
-    var box = $('.liquid'); if (!box || reduce) return;
-    var canvas = $('canvas', box), ctx = canvas.getContext('2d');
-    var BR = 143, DECAY = 0.016, FX = 0.84;
-    var dpr = Math.min(window.devicePixelRatio || 1, 2), img = new Image();
-    var cover = document.createElement('canvas'), brush = document.createElement('canvas');
-    var W = 0, H = 0, R = BR * dpr, pts = [], last = null, idle = 0, run = false;
-    brush.width = brush.height = Math.ceil(R * 2);
-    var bx = brush.getContext('2d');
-    function size() {
-      var r = box.getBoundingClientRect();
-      W = canvas.width = Math.round(r.width * dpr); H = canvas.height = Math.round(r.height * dpr);
-      cover.width = W; cover.height = H;
-      if (img.complete && img.naturalWidth) {
-        var c = cover.getContext('2d'), s = Math.max(W / img.naturalWidth, H / img.naturalHeight), dw = img.naturalWidth * s, dh = img.naturalHeight * s;
-        c.clearRect(0, 0, W, H); c.drawImage(img, (W - dw) * FX, (H - dh) * 0.5, dw, dh);
-      }
-    }
-    img.onload = size;
-    // load the reveal image after the page is idle so it never competes with the hero
-    var start = function () { img.src = box.getAttribute('data-reveal') || 'assets/img/family-slider.jpg'; };
-    if ('requestIdleCallback' in window) requestIdleCallback(start, { timeout: 2500 }); else setTimeout(start, 1200);
-    if ('ResizeObserver' in window) new ResizeObserver(size).observe(box);
-    size();
-    function stamp(x, y) {
-      bx.globalCompositeOperation = 'source-over'; bx.clearRect(0, 0, brush.width, brush.height);
-      var c = brush.width / 2, g = bx.createRadialGradient(c, c, 0, c, c, c);
-      g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(0.55, 'rgba(255,255,255,.82)'); g.addColorStop(1, 'rgba(255,255,255,0)');
-      bx.fillStyle = g; bx.fillRect(0, 0, brush.width, brush.height);
-      bx.globalCompositeOperation = 'source-in'; bx.drawImage(cover, x - c, y - c, brush.width, brush.width, 0, 0, brush.width, brush.width);
-      ctx.globalCompositeOperation = 'source-over'; ctx.drawImage(brush, x - c, y - c);
-    }
-    function frame() {
-      var drawing = pts.length > 0;
-      if (drawing) idle = 0; else { idle++; if (idle > 120) { ctx.clearRect(0, 0, W, H); run = false; return; } }
-      var fade = drawing ? DECAY : Math.min(DECAY + idle * 0.004, 0.5);
-      ctx.globalCompositeOperation = 'destination-out'; ctx.fillStyle = 'rgba(0,0,0,' + fade + ')'; ctx.fillRect(0, 0, W, H);
-      if (drawing) pts.splice(0).forEach(function (p) { stamp(p.x, p.y); });
-      requestAnimationFrame(frame);
-    }
-    window.addEventListener('pointermove', function (e) {
-      if (!img.naturalWidth) return;
-      var r = canvas.getBoundingClientRect(), x = (e.clientX - r.left) * dpr, y = (e.clientY - r.top) * dpr;
-      if (x < -R || y < -R || x > W + R || y > H + R) { last = null; return; }
-      if (last) {
-        var dx = x - last.x, dy = y - last.y, dist = Math.hypot(dx, dy), step = Math.max(R * 0.3, 1), n = Math.min(Math.ceil(dist / step), 60);
-        for (var i = 1; i <= n; i++) pts.push({ x: last.x + dx * i / n, y: last.y + dy * i / n });
-      } else pts.push({ x: x, y: y });
-      last = { x: x, y: y };
-      if (!run) { run = true; idle = 0; requestAnimationFrame(frame); }
-    });
-  })();
 })();
